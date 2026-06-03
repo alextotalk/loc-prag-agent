@@ -98,7 +98,11 @@ README with the required sections (including "Real-world usage").
 - [ ] README rewrite covering every section the test requires (problem
   statement, scope, business cases, architecture, setup, testing, examples,
   trade-offs, **Real-world usage**)
-- [ ] Public Git repo (GitHub) initialised and pushed
+- [x] Public Git repo (GitHub) initialised and pushed — **published 2026-06-03**:
+  public deliverable at https://github.com/alextotalk/loc-prag-agent (main, 47
+  files, no secrets/node_modules). The four foundation services were detached
+  from their old gitlab.com/localno remotes and pushed to separate **private**
+  repos (api-service, db_watcher, localno-web, localno_redis) under alextotalk.
 
 ## Target architecture (high level)
 
