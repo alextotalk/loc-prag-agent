@@ -1,0 +1,43 @@
+# Root compose for the Real Estate Search Agent.
+#
+# Brings up the agent-service container plus a Redis instance. MongoDB is the
+# managed Atlas cluster pointed at by MONGODB_URI (in agent-service/.env.local),
+# so no Mongo container is needed.
+#
+#   cp agent-service/.env.example agent-service/.env.local   # fill the secrets
+#   docker compose up --build
+#
+# Then: curl -X POST http://localhost:3020/agent/search \
+#         -H 'Content-Type: application/json' \
+#         -d '{"query":"2+kk Praha 5 do 25000, blízko metra, bez realitky"}'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: agent-redis
+    command: ['redis-server', '--save', '', '--appendonly', 'no']
+    ports:
+      - '6379:6379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  agent-service:
+    build: ./agent-service
+    container_name: agent-service
+    env_file:
+      - ./agent-service/.env.local
+    environment:
+      # override host so the container reaches the redis service by name
+      NODE_ENV: production
+      PORT: '3020'
+      REDIS_HOST: redis
+      REDIS_PORT: '6379'
+    ports:
+      - '3020:3020'
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped

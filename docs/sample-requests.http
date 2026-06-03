@@ -1,0 +1,61 @@
+### Sample requests for the Real Estate Search Agent
+### Use with VS Code "REST Client", JetBrains HTTP client, or copy into curl.
+### Base URL assumes local run on port 3020.
+
+@base = http://localhost:3020
+
+### Health check
+GET {{base}}/health
+
+### 1. Happy path — rent, no agencies, near metro (primary demo)
+# Expected: status "completed", ranked results from bazos + bezrealitky,
+# Czech inquiry drafts for the top 3, full tool trace + token usage.
+POST {{base}}/agent/search
+Content-Type: application/json
+
+{
+  "query": "2+kk Praha 5 do 25000 Kč, blízko metra, bez realitky"
+}
+
+### 2. Buyer search (sale)
+# Expected: status "completed", criteria.dealType == "sale".
+POST {{base}}/agent/search
+Content-Type: application/json
+
+{
+  "query": "Chci koupit 3+1 v Brně do 6 000 000 Kč"
+}
+
+### 3. English input
+# Expected: status "completed", criteria parsed from English.
+POST {{base}}/agent/search
+Content-Type: application/json
+
+{
+  "query": "1+kk to rent in Prague up to 18000 CZK, private owners only"
+}
+
+### 4. Refusal guardrail — out of scope
+# Expected: status "refused", refusalReason set, no search/classify performed.
+POST {{base}}/agent/search
+Content-Type: application/json
+
+{
+  "query": "write me a poem about the sea"
+}
+
+### 5. Input-validation guardrail — too short
+# Expected: HTTP 400 (DTO @MinLength), the loop never starts.
+POST {{base}}/agent/search
+Content-Type: application/json
+
+{
+  "query": "hi"
+}
+
+### 6. List recent runs (observability)
+GET {{base}}/agent/runs
+
+### 7. Fetch one persisted run with its full trace
+# Replace <runId> with a value returned by request #1.
+GET {{base}}/agent/runs/<runId>

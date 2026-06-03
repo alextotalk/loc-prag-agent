@@ -1,0 +1,64 @@
+# ---- dependencies ----
+node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+
+# ---- build output ----
+dist/
+**/dist/
+build/
+**/build/
+.next/
+**/.next/
+out/
+**/out/
+.turbo/
+*.tsbuildinfo
+
+# ---- secrets / env (NEVER commit) ----
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# ---- tests / coverage ----
+coverage/
+**/coverage/
+.nyc_output/
+
+# ---- logs ----
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ---- caches ----
+.cache/
+.eslintcache
+
+# ---- IDE / OS ----
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# ---- foundation services from the original loc-prag fork ----
+# Not part of this public deliverable — each is published to its own PRIVATE
+# repository. Kept locally for reference only.
+/api-service/
+/localno-web/
+/db_watcher/
+/localno_redis/
+
+# ---- legacy docs from the original Localno project (describe removed services) ----
+/Makefile
+/PROJECT_ARCHITECTURE.md
+/AI_CONTEXT.md
+/GEMINI.md
+/.cursor/
+# legacy engineering notes about the old services (keep only task docs in docs/)
+/docs/2026-*.md
