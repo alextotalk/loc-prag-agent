@@ -202,6 +202,10 @@ curl http://localhost:3020/agent/runs/<runId>
 
 ## Example inputs/outputs
 
+**Screenshot — a real run** (`POST /agent/search`, full tool trace + Czech drafts):
+
+![Sample agent run](docs/screenshots/sample-run.png)
+
 **Input**
 
 ```json
